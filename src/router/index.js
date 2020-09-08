@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import Home from '../components/home.vue'
 import Welcome from '../components/welcome.vue'
 import Pay from '../components/pay.vue'
-import User from '../components/user.vue'
 import Login from '../components/login.vue'
 import List from '../components/good/List.vue'
 import Add from '../components/good/Add.vue'
@@ -21,10 +20,6 @@ const routes = [
     {
       path: '/pay',
       component: Pay
-    },
-    {
-      path: '/user',
-      component: User
     },
     {
       path: '/list',
