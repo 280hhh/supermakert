@@ -1,27 +1,54 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-
+import Home from '../components/home.vue'
+import Welcome from '../components/welcome.vue'
+import Pay from '../components/pay.vue'
+import User from '../components/user.vue'
+import Login from '../components/login.vue'
+import List from '../components/good/List.vue'
+import Add from '../components/good/Add.vue'
 Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    component: Home,
+    redirect: '/login',
+    children: [{
+      path: '/welcome',
+      component: Welcome
+    },
+    {
+      path: '/pay',
+      component: Pay
+    },
+    {
+      path: '/user',
+      component: User
+    },
+    {
+      path: '/list',
+      component: List
+    },
+    {
+      path: '/add',
+      component: Add
+    }
+    ]
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/login',
+    component: Login
   }
 ]
 
 const router = new VueRouter({
   routes
 })
-
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login') return next()
+  const tokenstr = window.sessionStorage.getItem('token')
+  if (!tokenstr) return next('/login')
+  next()
+})
 export default router
