@@ -56,9 +56,10 @@ export default {
     this.getgood()
   },
   methods: {
-    handleEdit (index, row) {
-      console.log(row.flag)
-      this.$http.put('/buy')
+    async handleEdit (index, row) {
+      const aa = row
+      const msg = await this.$http.put('/buy',null,{params: {"goodsName":aa.goodsName,"number":aa.num}} )
+      console.log(msg)
     },
     handleDelete (index, row) {
       console.log(index, row)
@@ -72,7 +73,7 @@ export default {
       this.tableData = res.data
       this.tableData.map(v => {
         // v.num=0   刚开始这样赋值，不可行
-        this.$set(v, 'num', 0)
+        this.$set(v, 'num', 1)
       })
     }
   }

@@ -65,14 +65,14 @@ export default {
   methods: {
     async regist () {
       const _this = this
-      const date = await this.$http.get('/register', { params: _this.registform })
+      const date = await this.$http.post('/register',null, { params: _this.registform })
       if (date.data !== '注册成功') return this.$message.error(date.data)
       this.$message.success(date.data)
       this.abc = false
     },
     async login () {
       const _this = this
-      const res = await this.$http.get('/login', { params: _this.loginform })
+      const res = await this.$http.get('/login',{ params: _this.loginform })
       if (res.data.status !== 1) return this.$message.error('登录失败')
       this.$message.success('登录成功')
       window.sessionStorage.setItem('token', res.data.status)
