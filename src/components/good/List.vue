@@ -15,7 +15,6 @@
       <el-table :data="goodslist" border>
         <el-table-column label="商品名称" prop="goodsName"></el-table-column>
         <el-table-column label="商品价格（元）" prop="price"></el-table-column>
-
         <el-table-column label="商品数量">
           <template slot-scope="scope">
             <el-input-number
@@ -30,11 +29,10 @@
         <el-table-column label="状态">
           <template slot-scope="scope">
             <el-switch
-              v-model="scope.row.goodsState"
+              v-model="scope.row.flag"
               @change="change1"
               active-color="#13ce66"
               inactive-color="#ff4949"
-              active-value="1"
             ></el-switch>
           </template>
         </el-table-column>
@@ -90,12 +88,9 @@ export default {
     goAddpage () {
       this.$router.push('/add')
     },
-    change1 () {
-      //   for(var item in this.goodslist){
-      //       if(row.goodsId===this.goodslist[item].goodsId){this.goodslist[item].state=row.state;console.log(item)}
-      //   }
-      // this.goodslist=row.
-      console.log(this.goodslist)
+    async change1 (userinfo) {
+      console.log(userinfo)
+      const {data:res} = await this.$http.put('/changGoodsFlag?goodsName=userinfo.goodsName&flag=userinfo.goodsName')
     },
     handleChange () {
       console.log(this.goodsNum1)
