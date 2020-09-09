@@ -69,6 +69,7 @@ export default {
     async getgood () {
       const res = await this.$http.get('/getAllGoods')
       this.tableData = res.data
+      console.log(this.tableData)
       this.tableData.map(v => {
         // v.num=0   刚开始这样赋值，不可行
         this.$set(v, 'num', 1)

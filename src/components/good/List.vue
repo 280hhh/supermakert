@@ -19,7 +19,7 @@
           <template slot-scope="scope">
             <el-input-number
               v-model="scope.row.inventory"
-              @change="handleChange"
+              @change="handleChange(scope.row)"
               :min="1"
               :max="10"
             ></el-input-number>
@@ -27,13 +27,9 @@
         </el-table-column>
 
         <el-table-column label="状态">
-          <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.flag"
-              @change="change1"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-            ></el-switch>
+            <template slot-scope="scope">
+          <el-button type="success" v-model="scope.row" @click="change1(scope.row)">上架商品</el-button>
+          <el-button type="warning" v-model="scope.row" @click="change2(scope.row)">下架商品</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -67,7 +63,8 @@ export default {
       goodslist: [],
       // 总数据条数
       total: 0,
-      goodsNum1: 1
+      status:0,
+
     }
   },
   created () {
@@ -88,12 +85,20 @@ export default {
     goAddpage () {
       this.$router.push('/add')
     },
-    async change1 (userinfo) {
-      console.log(userinfo)
-      const {data:res} = await this.$http.put('/changGoodsFlag?goodsName=userinfo.goodsName&flag=userinfo.goodsName')
+    change1 (userinfo) {
+      this.$http.put('/changGoodsFlag',null,{params: {"goodsName":userinfo.goodsName,"flag":userinfo.flag}})
+      this.goodslist.map(v => {
+      this.$set(v, 'flag', 1)
+      })
     },
-    handleChange () {
-      console.log(this.goodsNum1)
+    change2(userinfo){
+      this.$http.put('/changGoodsFlag',null,{params: {"goodsName":userinfo.goodsName,"flag":userinfo.flag}})
+      this.goodslist.map(v => {
+        this.$set(v, 'flag', 0)
+      })
+    },
+    handleChange (userinfo) {
+      this.$http.post('/addGoodNum',null,{params: {"goodsName":userinfo.goodsName,"number":userinfo.inventory}})
     },
     mounted () {
     }
